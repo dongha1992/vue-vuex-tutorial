@@ -22,6 +22,7 @@
     name: 'Todos',
     methods: mapActions(['fetchTodos', 'deleteTodo']),
     computed: mapGetters(['getAllTodos']),
+    
     created() {
       this.fetchTodos();
     },

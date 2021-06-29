@@ -35,6 +35,13 @@ const actions = {
     await axios.delete(`${BASE_URL}/todos/${id}`);
     commit('deleteTodo', id);
   },
+
+  // eslint-disable-next-line no-unused-vars
+  async filterTodos({ commit }, e) {
+    const limit = e.target.value;
+    const res = await axios.get(`${BASE_URL}/todos?_limit=${limit}`);
+    commit('setTodos', res.data);
+  },
 };
 
 const mutations = {
