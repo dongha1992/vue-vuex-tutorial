@@ -59,6 +59,13 @@ const mutations = {
   deleteTodo: (state, id) =>
     (state.todos = state.todos.filter((todo) => todo.id !== id)),
   updateTodo: (state, updatedTodo) => {
+    // const foundIndex = state.todos.findIndex(
+    //   (todo) => todo.id === updatedTodo.id
+    // );
+    // if (foundIndex !== -1) {
+    //   state.todos.splice(index, 1, updatedTodo);
+    // }
+
     const newTodos = state.todos.map((todo) => {
       if (todo.id === updatedTodo.id) {
         return { ...todo, completed: updatedTodo.completed };
