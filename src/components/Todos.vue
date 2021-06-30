@@ -7,7 +7,13 @@
       <span> <span class="complete-box"></span> = Complete </span>
     </div>
     <div class="todos">
-      <div v-for="todo in getAllTodos" :key="todo.id" class="todo">
+      <div
+        @click="onClick(todo)"
+        v-for="todo in getAllTodos"
+        :key="todo.id"
+        class="todo"
+        v-bind:class="{ 'is-complete': todo.completed }"
+      >
         {{ todo.title }}
         <button @click="deleteTodo(todo.id)" class="delete-btn">Delete</button>
       </div>
@@ -20,9 +26,20 @@
 
   export default {
     name: 'Todos',
-    methods: mapActions(['fetchTodos', 'deleteTodo']),
+    methods: {
+      ...mapActions(['fetchTodos', 'deleteTodo', 'updateTodo']),
+      onClick(todo) {
+        const updatedTodo = {
+          id: todo.id,
+          title: todo.title,
+          completed: !todo.completed,
+        };
+
+        this.updateTodo(updatedTodo);
+      },
+    },
     computed: mapGetters(['getAllTodos']),
-    
+
     created() {
       this.fetchTodos();
     },
@@ -44,6 +61,7 @@
     position: relative;
     padding: 1.5rem;
     border-radius: 5px;
+    background: #41b883;
     text-align: center;
     cursor: pointer;
     border: 1px solid rgba(0, 0, 0, 0.3);
@@ -57,5 +75,10 @@
     outline: none;
     border: none;
     cursor: pointer;
+  }
+
+  .is-complete {
+    background: #35495e;
+    color: #fff;
   }
 </style>

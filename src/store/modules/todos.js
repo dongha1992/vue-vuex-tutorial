@@ -36,11 +36,20 @@ const actions = {
     commit('deleteTodo', id);
   },
 
-  // eslint-disable-next-line no-unused-vars
   async filterTodos({ commit }, e) {
     const limit = e.target.value;
     const res = await axios.get(`${BASE_URL}/todos?_limit=${limit}`);
     commit('setTodos', res.data);
+  },
+
+  async updateTodo({ commit }, updatedTodo) {
+    const res = await axios.put(
+      `${BASE_URL}/todos/${updatedTodo.id}`,
+      updatedTodo
+    );
+    if (res) {
+      commit('updateTodo', res.data);
+    }
   },
 };
 
@@ -49,6 +58,16 @@ const mutations = {
   addTodo: (state, todo) => (state.todos = [...state.todos, todo]),
   deleteTodo: (state, id) =>
     (state.todos = state.todos.filter((todo) => todo.id !== id)),
+  updateTodo: (state, updatedTodo) => {
+    const newTodos = state.todos.map((todo) => {
+      if (todo.id === updatedTodo.id) {
+        return { ...todo, completed: updatedTodo.completed };
+      } else {
+        return todo;
+      }
+    });
+    state.todos = newTodos;
+  },
 };
 
 export default {
